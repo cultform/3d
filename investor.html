@@ -741,6 +741,13 @@
             font-weight: 600;
         }
 
+        .compound-interest-warning {
+            color: rgb(224, 176, 15);
+            font-size: 12px;
+            margin-top: 4px;
+            min-height: 14px;
+        }
+
     </style>
 </head>
 <body>
@@ -1130,6 +1137,7 @@
                     <div class="checkbox-group">
                         <input type="checkbox" id="compoundInterest">
                         <label for="compoundInterest" style="margin:0;">Применять сложный процент (каждые 12 месяцев реинвестировать прибыль)</label>
+                        <div class="compound-interest-warning" id="compoundInterestWarning"></div>
                     </div>
                     <div id="results">
                         <div class="result-item"><span>📆 Ежемесячный доход (6.5%):</span><span id="monthlyVal"></span></div>
@@ -1163,6 +1171,12 @@
                 let P = parseFloat(principalInput.value);
                 let N = parseInt(monthsInput.value);
                 const compoundEnabled = compoundCheck.checked;
+
+                if (compoundEnabled && (N <= 12)) {
+                    document.getElementById('compoundInterestWarning').innerText = 'Сложный процент работает только для вкладов от 13 мес. и более'
+                } else {
+                    document.getElementById('compoundInterestWarning').innerText = ''
+                }
 
                 if(isNaN(P)) P = 500;
                 if(isNaN(N)) N = 1;

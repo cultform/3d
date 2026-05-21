@@ -811,6 +811,13 @@
             border: 1px solid red;
         }
 
+        .compound-interest-warning {
+            color: rgb(224, 176, 15);
+            font-size: 12px;
+            margin-top: 4px;
+            min-height: 14px;
+        }
+
         /* Chrome, Safari, Edge, Opera */
         input[type="number"]::-webkit-outer-spin-button,
         input[type="number"]::-webkit-inner-spin-button {
@@ -950,6 +957,7 @@
                     <div class="calc-checkbox-group">
                         <input type="checkbox" id="compoundInterest">
                         <label for="compoundInterest">Сложный процент (каждые 12 месяцев реинвестирование)</label>
+                        <div class="compound-interest-warning" id="compoundInterestWarning"></div>
                     </div>
 
                     <!-- Результаты: две колонки -->
@@ -1075,6 +1083,12 @@
 
             const investorRate = 0.065;
             const agentRate = 0.02;
+
+            if (compoundEnabled && (N <= 12)) {
+                document.getElementById('compoundInterestWarning').innerText = 'Сложный процент работает только для вкладов от 13 мес. и более'
+            } else {
+                document.getElementById('compoundInterestWarning').innerText = ''
+            }
 
             // Общая сумма с учетом количества человек
             const totalPrincipal = P * peopleCount;
@@ -1291,71 +1305,6 @@
                 });
             }, observerOptions);
             sections.forEach(s => observer.observe(s));
-
-            // ── CHARTS ───────────────────────────
-            const cityCtx = document.getElementById('cityChart').getContext('2d');
-            new Chart(cityCtx, {
-                type: 'bar',
-                data: {
-                    labels: ['Стамбул', 'Анкара', 'Измир', 'Анталья', 'Бурса'],
-                    datasets: [{
-                        label: 'Количество семей (млн)',
-                        data: [5, 2, 1.5, 1, 1],
-                        backgroundColor: ['#4f6ef7', '#6b82ff', '#8899ff', '#a3b4ff',
-                            '#c0ccff'
-                        ],
-                        borderRadius: 8,
-                        borderSkipped: false,
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: true,
-                    plugins: {
-                        legend: { display: false },
-                        tooltip: { callbacks: { label: ctx => ctx.raw + ' млн семей' } }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            title: { display: true, text: 'млн семей' },
-                            ticks: { callback: v => v + 'M' }
-                        }
-                    }
-                }
-            });
-
-            const costCtx = document.getElementById('costBreakdownChart').getContext('2d');
-            new Chart(costCtx, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Пластик', 'Электричество', 'Упаковка', 'Амортизация', 'Комиссия MP', 'Реклама',
-                        'Доставка', 'Налог 4%', 'Возвраты (10%)', 'Прибыль'
-                    ],
-                    datasets: [{
-                        data: [1.125, 0.06, 0.25, 0.15, 1.7287, 0.70, 0.858, 0.70, 0.292,
-                            2.6243
-                        ],
-                        backgroundColor: [
-                            '#e05560', '#e87880', '#f0a0a8', '#f8c8cc',
-                            '#4f6ef7', '#6b82ff', '#8899ff', '#a3b4ff',
-                            '#c8943e', '#2ea879'
-                        ],
-                        borderWidth: 2,
-                        borderColor: 'var(--surface)',
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: true,
-                    plugins: {
-                        legend: { position: 'bottom', labels: { boxWidth: 12, padding: 10,
-                                font: { size: 10 } } },
-                        tooltip: { callbacks: { label: ctx => ctx.label + ': $' + ctx.raw.toFixed(
-                                3) } }
-                    }
-                }
-            });
 
             // ── TOGGLE DETAILS ──────────────────
             document.querySelectorAll('.toggle-btn').forEach(btn => {
