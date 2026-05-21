@@ -1,0 +1,1370 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Инвестиционная презентация | CULTFORM</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js">
+    </script>
+    <style>
+        :root {
+            --bg: #f8f9fb;
+            --surface: #ffffff;
+            --surface-alt: #f1f3f6;
+            --text: #1a1d28;
+            --text-secondary: #4a4f5c;
+            --accent: #4f6ef7;
+            --accent-light: #eef1fe;
+            --accent-dark: #3b54d4;
+            --gold: #c8943e;
+            --gold-light: #fdf6e8;
+            --danger: #e05560;
+            --danger-light: #fef0f1;
+            --success: #2ea879;
+            --success-light: #edf8f3;
+            --border: #e2e5ec;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04);
+            --shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.10);
+            --radius-sm: 8px;
+            --radius: 14px;
+            --radius-lg: 20px;
+            --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .dark {
+            --bg: #111418;
+            --surface: #1a1e26;
+            --surface-alt: #21262f;
+            --text: #e8eaef;
+            --text-secondary: #a3a9b7;
+            --accent: #6b82ff;
+            --accent-light: #1b2140;
+            --accent-dark: #8899ff;
+            --gold: #d4a84b;
+            --gold-light: #2a2215;
+            --danger: #e87880;
+            --danger-light: #2a181b;
+            --success: #40bf80;
+            --success-light: #182820;
+            --border: #2a3040;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.20);
+            --shadow: 0 4px 16px rgba(0, 0, 0, 0.30);
+            --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.40);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 80px;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Inter', system-ui, -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            transition: background var(--transition), color var(--transition);
+        }
+
+        /* ── NAV ─────────────────────────────── */
+        .nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 60px;
+            flex-wrap: wrap;
+            gap: 8px;
+            box-shadow: var(--shadow-sm);
+            transition: background var(--transition), border var(--transition);
+        }
+        .nav-links {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            overflow-x: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        .nav-links::-webkit-scrollbar {
+            display: none;
+        }
+        .nav-links a {
+            text-decoration: none;
+            font-size: 0.92rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            padding: 7px 13px;
+            border-radius: 20px;
+            white-space: nowrap;
+            transition: all var(--transition);
+            letter-spacing: 0.01em;
+        }
+        .nav-links a:hover,
+        .nav-links a.active {
+            background: var(--accent-light);
+            color: var(--accent);
+        }
+        .nav-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .btn-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            border: 1px solid var(--border);
+            background: var(--surface);
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all var(--transition);
+            color: var(--text);
+        }
+        .btn-icon:hover {
+            background: var(--surface-alt);
+            border-color: var(--accent);
+        }
+        .lang-switch {
+            font-size: 0.88rem;
+            font-weight: 600;
+            padding: 6px 14px;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            background: var(--surface);
+            cursor: pointer;
+            color: var(--text-secondary);
+            transition: all var(--transition);
+        }
+        .lang-switch:hover {
+            background: var(--accent-light);
+            color: var(--accent);
+        }
+
+        /* ── LAYOUT ─────────────────────────── */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px 24px 60px;
+        }
+        .section {
+            margin: 50px 0 20px;
+            scroll-margin-top: 80px;
+        }
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 28px;
+            flex-wrap: wrap;
+        }
+        .section-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            flex-shrink: 0;
+        }
+        .section-icon.clients {
+            background: #eef4ff;
+            color: #4f6ef7;
+        }
+        .section-icon.product {
+            background: #fef3e4;
+            color: #c8943e;
+        }
+        .section-icon.sales {
+            background: #e8f7f0;
+            color: #2ea879;
+        }
+        .section-icon.company {
+            background: #f5e6fc;
+            color: #7c3aed;
+        }
+        .section-icon.profit {
+            background: #fde8ec;
+            color: #e05560;
+        }
+        .section-icon.plan {
+            background: #e0f0ff;
+            color: #0b7bc0;
+        }
+        .section-icon.risks {
+            background: #fff3e0;
+            color: #e67e22;
+        }
+        .section-icon.bg {
+            background: #e6f5f2;
+            color: #0d9488;
+        }
+        .dark .section-icon.clients {
+            background: #1b2545;
+        }
+        .dark .section-icon.product {
+            background: #2a2215;
+        }
+        .dark .section-icon.sales {
+            background: #182820;
+        }
+        .dark .section-icon.company {
+            background: #1f1630;
+        }
+        .dark .section-icon.profit {
+            background: #2a181b;
+        }
+        .dark .section-icon.plan {
+            background: #152535;
+        }
+        .dark .section-icon.risks {
+            background: #2a1f10;
+        }
+        .dark .section-icon.bg {
+            background: #162824;
+        }
+        .section-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            color: var(--text);
+        }
+
+        /* ── CARDS ──────────────────────────── */
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 24px 28px;
+            margin-bottom: 18px;
+            box-shadow: var(--shadow-sm);
+            transition: all var(--transition);
+        }
+        .card:hover {
+            box-shadow: var(--shadow);
+        }
+        .card h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--text);
+        }
+        .card p,
+        .card li {
+            font-size: 1.0rem;
+            color: var(--text-secondary);
+        }
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 18px;
+        }
+        .card-grid.cols-3 {
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        }
+        .card-grid.cols-4 {
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        }
+
+        /* ── STAT CARD ──────────────────────── */
+        .stat-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 20px 22px;
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+            transition: all var(--transition);
+        }
+        .stat-card .stat-value {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--accent);
+            letter-spacing: -0.02em;
+        }
+        .stat-card .stat-label {
+            font-size: 0.92rem;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+
+        /* ── TABLES ─────────────────────────── */
+        .table-wrap {
+            overflow-x: auto;
+            margin: 12px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+            min-width: 600px;
+        }
+        table th,
+        table td {
+            padding: 10px 14px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+        table th {
+            background: var(--surface-alt);
+            font-weight: 600;
+            color: var(--text);
+            font-size: 0.88rem;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            white-space: nowrap;
+        }
+        table td {
+            color: var(--text-secondary);
+        }
+        table tbody tr:hover td {
+            background: var(--surface-alt);
+        }
+        .highlight-row td {
+            font-weight: 700;
+            color: var(--accent);
+            background: var(--accent-light);
+        }
+        .dark .highlight-row td {
+            background: #1b2545;
+        }
+
+        /* ── BADGES ─────────────────────────── */
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+        }
+        .badge-green {
+            background: var(--success-light);
+            color: var(--success);
+        }
+        .badge-red {
+            background: var(--danger-light);
+            color: var(--danger);
+        }
+        .badge-gold {
+            background: var(--gold-light);
+            color: var(--gold);
+        }
+        .badge-accent {
+            background: var(--accent-light);
+            color: var(--accent);
+        }
+
+        /* ── CHARTS ─────────────────────────── */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 100%;
+            margin: 10px 0;
+        }
+        .chart-container canvas {
+            width: 100% !important;
+            max-height: 480px;
+        }
+        .chart-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            align-items: start;
+        }
+        @media (max-width: 768px) {
+            .chart-row {
+                grid-template-columns: 1fr;
+            }
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+            .card-grid.cols-3,
+            .card-grid.cols-4 {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        @media (max-width: 480px) {
+            .card-grid.cols-3,
+            .card-grid.cols-4 {
+                grid-template-columns: 1fr;
+            }
+            .nav-links a {
+                font-size: 0.8rem;
+                padding: 5px 9px;
+            }
+        }
+
+        /* ── TIMELINE ───────────────────────── */
+        .timeline {
+            position: relative;
+            padding-left: 32px;
+            margin: 20px 0;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 11px;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: var(--border);
+            border-radius: 3px;
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 28px;
+            padding-left: 18px;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -24px;
+            top: 6px;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: var(--accent);
+            border: 3px solid var(--surface);
+            box-shadow: 0 0 0 3px var(--accent-light);
+            z-index: 2;
+        }
+        .timeline-item h4 {
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 4px;
+        }
+        .timeline-item p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+        .timeline-date {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--accent);
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+        }
+
+        /* ── RISK MATRIX ────────────────────── */
+        .risk-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 16px;
+        }
+        .risk-card {
+            border-left: 4px solid var(--accent);
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-left-width: 4px;
+            border-radius: var(--radius-sm);
+            padding: 16px 20px;
+            transition: all var(--transition);
+        }
+        .risk-card.danger {
+            border-left-color: var(--danger);
+        }
+        .risk-card.warning {
+            border-left-color: #e67e22;
+        }
+        .risk-card h4 {
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: var(--text);
+        }
+        .risk-card p {
+            font-size: 0.92rem;
+            color: var(--text-secondary);
+        }
+        .risk-card .risk-label {
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            margin-bottom: 4px;
+        }
+
+        /* ── HERO ───────────────────────────── */
+        .hero {
+            text-align: center;
+            padding: 50px 20px 30px;
+            position: relative;
+        }
+        .hero h1 {
+            font-size: 2.85rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.15;
+            margin-bottom: 10px;
+            color: var(--text);
+        }
+        .hero .hero-tagline {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 650px;
+            margin: 0 auto 20px;
+        }
+        .hero-metrics {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        .hero-metric {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 14px 22px;
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+            min-width: 110px;
+        }
+        .hero-metric .val {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+        .hero-metric .lbl {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        /* ── FOOTER ─────────────────────────── */
+        .footer-note {
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            padding: 20px;
+            border-top: 1px solid var(--border);
+            margin-top: 40px;
+        }
+
+        /* ── TOGGLE DETAILS ─────────────────── */
+        .toggle-btn {
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--accent);
+            background: none;
+            border: none;
+            padding: 6px 0;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: var(--transition);
+        }
+        .toggle-btn:hover {
+            color: var(--accent-dark);
+        }
+        .toggle-content {
+            display: none;
+            margin-top: 10px;
+        }
+        .toggle-content.open {
+            display: block;
+        }
+
+        /* ── ANIMATIONS ─────────────────────── */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(24px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .animate-in {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        /* ── PRINT ──────────────────────────── */
+        @media print {
+            .nav {
+                position: static;
+            }
+            .card {
+                break-inside: avoid;
+            }
+        }
+
+        /* ── TOOLTIP ────────────────────────── */
+        [data-tooltip] {
+            position: relative;
+            cursor: help;
+            border-bottom: 1px dotted var(--text-secondary);
+        }
+        [data-tooltip]:hover::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 120%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--text);
+            color: var(--bg);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            white-space: nowrap;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        /* ── CALCULATOR WIDGET (enhanced) ────────────────── */
+        .widget-calculator {
+            background: var(--surface-alt);
+            border-radius: var(--radius);
+            padding: 1.8rem 1.6rem;
+            margin: 0;
+            border: 1px solid var(--border);
+            transition: all var(--transition);
+        }
+        .widget-calculator h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text);
+            font-size: 0.9rem;
+        }
+        .custom-number {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .custom-number input {
+            flex: 1;
+            text-align: center;
+            padding: 12px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: var(--surface);
+            color: var(--text);
+            user-select: none;
+            -webkit-user-select: none;
+            caret-color: transparent;
+            font-family: monospace;
+        }
+        .spin-btn {
+            width: 46px;
+            height: 46px;
+            border: none;
+            border-radius: 60px;
+            background: var(--accent);
+            color: white;
+            font-size: 1.6rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-sm);
+        }
+        .spin-btn:hover {
+            background: var(--accent-dark);
+            transform: scale(0.96);
+        }
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 1.8rem;
+            flex-wrap: wrap;
+        }
+        .checkbox-group input {
+            width: 20px;
+            height: 20px;
+            accent-color: var(--accent);
+        }
+        #results {
+            margin-top: 1rem;
+            padding-top: 0.8rem;
+            border-top: 2px dashed var(--border);
+        }
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.7rem;
+            font-size: 1rem;
+            padding: 0.2rem 0;
+        }
+        .result-item.total {
+            font-weight: 800;
+            font-size: 1.35rem;
+            color: var(--success);
+            margin-top: 0.5rem;
+            border-top: 1px solid var(--border);
+            padding-top: 0.8rem;
+        }
+        hr {
+            border-color: var(--border);
+            margin: 0.8rem 0;
+        }
+        .calc-badge {
+            background: var(--accent-light);
+            border-radius: 40px;
+            padding: 4px 12px;
+            font-size: 0.75rem;
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- ═══════════════ NAV ═══════════════ -->
+    <nav class="nav" id="topNav">
+        <div class="nav-links" id="navLinks">
+            <a href="#clients">Клиенты</a>
+            <a href="#product">Продукт</a>
+            <a href="#sales">Продажи</a>
+            <a href="#company">Компания</a>
+            <a href="#profit">Прибыльность</a>
+            <a href="#plan">План</a>
+            <a href="#risks">Риски</a>
+            <a href="#background">Бэкграунд</a>
+            <a href="#calculator">Калькулятор</a>
+        </div>
+        <div class="nav-actions">
+            <button class="btn-icon" id="themeToggle" title="Тёмный / Светлый режим">🌓</button>
+        </div>
+    </nav>
+
+    <!-- ═══════════════ HERO (UPDATED WITH METRICS) ═══════════════ -->
+    <header class="hero animate-in">
+        <h1>CULTFORM</h1>
+        <p class="hero-tagline">Производство авторских 3D-фигурок с быстрой окупаемостью и гибкой моделью масштабирования.</p>
+
+        <p class="hero-tagline">Для инвестора</p>
+
+        <div class="hero-metrics">
+            <div class="hero-metric">
+                <div class="val">от $500</div>
+                <div class="lbl">📦 Инвестиции</div>
+                <div class="sub-lbl">Минимальный вход</div>
+            </div>
+            <div class="hero-metric">
+                <div class="val">~78%</div>
+                <div class="lbl">📈 Доходность</div>
+                <div class="sub-lbl">Средний показатель в год</div>
+            </div>
+        </div>
+        <div class="hero-metrics">
+            <div class="hero-metric">
+                <div class="val">💸 Выплаты ежемесячно</div>
+            </div>
+        </div>
+        <p style="font-size:0.95rem; margin-top: 20px; color: var(--text-secondary);"><span class="badge badge-green">Экономика проекта уже подтверждена</span></p>
+    </header>
+
+    <div class="container">
+
+        <!-- ════════════ 1. CLIENTS ════════════ -->
+        <section class="section" id="clients">
+            <div class="section-header">
+                <div class="section-icon clients">👥</div>
+                <div>
+                    <div class="section-title">Клиенты</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>🎯 Повседневные покупатели</h3>
+                <p>Аудитория маркетплейсов и социальных платформ в Турции. В первую очередь — <strong>женщины и дети</strong>, стремящиеся сделать домашнее пространство уютнее и визуально интереснее. Основной сегмент — городские семьи с собственным жильём.</p>
+            </div>
+
+            <div class="card-grid cols-5">
+                <div class="stat-card">
+                    <div class="stat-value">~1 млн</div>
+                    <div class="stat-label">Анталья</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">~5 млн</div>
+                    <div class="stat-label">Стамбул</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">~2 млн</div>
+                    <div class="stat-label">Анкара</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">~1.5 млн</div>
+                    <div class="stat-label">Измир</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">~1 млн</div>
+                    <div class="stat-label">Бурса</div>
+                </div>
+            </div>
+    
+            <br>
+
+            <div class="card">
+                <h3>📊 Распределение семей по крупным городам</h3>
+                <div class="chart-container"><canvas id="cityChart"></canvas></div>
+                <p style="font-size:0.85rem;color:var(--text-secondary);margin-top:6px;">* Статистика основана на данных Turkish Statistical Institute (TÜİK)</p>
+            </div>
+        </section>
+
+        <!-- ════════════ 2. PRODUCT ════════════ -->
+        <section class="section" id="product">
+            <div class="section-header">
+                <div class="section-icon product">🎁</div>
+                <div>
+                    <div class="section-title">Продукт</div>
+                </div>
+            </div>
+            <div class="card">
+                <h3>🖨️ Трёхмерные фигурки</h3>
+                <p>Размер — от компактной флешки до крупной банки колы. Форматы изделий: <strong>декор для интерьера, детские игрушки и практичные аксессуары</strong>. Первая серия — атмосферные фигурки в стилистике привидений.</p>
+                <p>В перспективе — полноценный бренд с фирменной упаковкой и маркировкой продукции. Производственная база — современное оборудование <strong>Creality</strong> и качественный PLA+ пластик.</p>
+                <p><span class="badge badge-gold">Демпинговая цена</span> используется как инструмент быстрого роста популярности товара и магазина. Импортные пошлины ограничивают внешнюю конкуренцию — рынок делится между локальными турецкими производителями.</p>
+            </div>
+            <div class="card">
+                <h3>🔍 Похожие популярные позиции на Trendyol</h3>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr><th>Товар</th><th>Цена</th><th>Описание</th><th>Отзывы / Лайки</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><a href="https://www.trendyol.com/genel-markalar/hayalet-figur-seti-kalpli-kitap-okuyan-ve-balonlu-modeller-ev-dekorasyonu-hediye-alternatifi-dekor-p-1048878601?boutiqueId=61&merchantId=1094335"
+                                        target="_blank" rel="noopener" style="color:var(--accent);">Фигурки
+                                        привидений</a></td>
+                                <td>185 TL</td>
+                                <td>Мягкое свечение от мини-лампочек; декоративный акцент для дома</td>
+                                <td><span class="badge badge-green">~1600 отзывов</span> · 57.2 тыс. лайков</td>
+                            </tr>
+                            <tr>
+                                <td><a href="https://www.trendyol.com/home/yazili-dekoratif-biblo-p-878532707?boutiqueId=61&merchantId=1094335&filterOverPriceListings=false&sav=true"
+                                        target="_blank" rel="noopener" style="color:var(--accent);">Трёхмерные
+                                        надписи</a></td>
+                                <td>149 TL</td>
+                                <td>Объёмные интерьерные элементы с декоративной функцией</td>
+                                <td><span class="badge badge-green">~320 отзывов</span> · 20.9 тыс. лайков</td>
+                            </tr>
+                            <tr>
+                                <td><a href="https://www.trendyol.com/flexilab-creative/harry-potter-platform-9-kitap-tutucu-3d-baski-dekoratif-kitaplik-organizer-p-980429701?boutiqueId=61&merchantId=1110406"
+                                        target="_blank" rel="noopener" style="color:var(--accent);">Подпорка для
+                                        книг</a></td>
+                                <td>149.90 TL</td>
+                                <td>Дизайнерский держатель для книжной полки, выполненный на 3D-печати</td>
+                                <td><span class="badge badge-green">~250 отзывов</span> · 15.8 тыс. лайков</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p style="font-size:0.92rem;color:var(--text-secondary);">Динамика продаж показывает <strong>стабильный и долгосрочный интерес аудитории</strong>.</p>
+            </div>
+        </section>
+
+        <!-- ════════════ 3. SALES ════════════ -->
+        <section class="section" id="sales">
+            <div class="section-header">
+                <div class="section-icon sales">🛒</div>
+                <div>
+                    <div class="section-title">Продажи</div>
+                </div>
+            </div>
+            <div class="card">
+                <h3>📦 Маркетплейс Trendyol</h3>
+                <p>Основной поток покупателей приходит через <strong>Trendyol</strong> — привычный путь от поиска товара до оформления заказа. Для усиления продаж используются внутренние механики платформы: приоритетная выдача и рекламное продвижение по кликам.</p>
+                <p>Следующий этап — запуск собственных каналов прямых онлайн-продаж: <strong>Instagram и отдельный веб-сайт</strong>.</p>
+                <p><span class="badge badge-accent">70% трафика</span> формируется рекламой; средняя стоимость привлечения клиента — около 38 TL.</p>
+            </div>
+        </section>
+
+        <!-- ════════════ 5. PROFITABILITY ════════════ -->
+        <section class="section" id="profit">
+            <div class="section-header">
+                <div class="section-icon profit">💰</div>
+                <div>
+                    <div class="section-title">Прибыльность</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>📋 Инвестиции и параметры</h3>
+                <div class="card-grid cols-2">
+                    <div class="stat-card">
+                        <div class="stat-value">$297</div>
+                        <div class="stat-label">Принтер Creality</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">$203</div>
+                        <div class="stat-label">13.5 кг PLA+ пластик на месяц</div>
+                    </div>
+                </div>
+                <p style="margin-top:12px;"><strong>Продукт:</strong> Комплекты из 1–5 изделий (25 г/шт.) &middot;
+                    <strong>Целевая цена:</strong> $2.68 (122 TL) за единицу = $8.04 (366 TL) за средний набор из 3 фигурок.</p>
+            </div>
+
+            <div class="card">
+                <h3>📐 Расчёт прибыли со среднего набора (3 фигурки)</h3>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr><th>Статья</th><th>Сумма</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Цена для покупателя</td><td>$9.29 (423 TL)</td></tr>
+                            <tr><td>Себестоимость (пластик)</td><td>− $1.125</td></tr>
+                            <tr><td>Себестоимость (электричество)</td><td>− $0.06</td></tr>
+                            <tr><td>Упаковка (коробка + плёнка)</td><td>− $0.25</td></tr>
+                            <tr><td>Амортизация оборудования</td><td>− $0.15</td></tr>
+                            <tr><td>Комиссия маркетплейса 20% + 1.5%</td><td>− $1.7287</td></tr>
+                            <tr><td>Реклама (70% трафика)</td><td>− $0.70</td></tr>
+                            <tr><td>Доставка</td><td>− $0.858</td></tr>
+                            <tr><td>Налог 4%</td><td>− $0.70</td></tr>
+                            <tr><td>Возвраты и повреждения (10%)</td><td>− $0.386</td></tr>
+                            <tr class="highlight-row"><td><strong>Чистая прибыль с набора</strong></td>
+                                <td><strong>$3.474</strong></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="chart-row">
+                <div class="card">
+                    <h3>📊 Структура затрат набора</h3>
+                    <div class="chart-container"><canvas id="costBreakdownChart"></canvas></div>
+                </div>
+                <div class="card">
+                    <h3>📈 Окупаемость</h3>
+                    <div class="table-wrap">
+                        <table>
+                            <thead><tr><th>Параметр</th><th>Значение</th></tr></thead>
+                            <tbody>
+                                <tr><td>Стоимость принтера</td><td>$297</td></tr>
+                                <tr><td>Прибыль с набора</td><td>$3.474</td></tr>
+                                <tr><td>ЗП оператора (на 1 принтер)</td><td>$75 / мес.</td></tr>
+                                <tr><td>Аренда (на 1 принтер)</td><td>$20 / мес.</td></tr>
+                                <tr><td>Наборов в месяц</td><td>64 шт.</td></tr>
+                                <tr class="highlight-row"><td><strong>Прибыль в месяц</strong></td>
+                                    <td><strong>$127.34</strong></td></tr>
+                                <tr class="highlight-row"><td><strong>Окупаемость принтера</strong></td>
+                                    <td><strong>2.5 мес.</strong></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>🔑 Ключевые выводы</h3>
+                <ol>
+                    <li><strong>Высокая маржа безопасности:</strong> при цене $9.29 за комплект маржа — <span
+                            class="badge badge-green">37%</span>, что даёт пространство для рекламы и скидок.</li>
+                    <li><strong>Скорость масштабирования:</strong> принтер окупается за 2.5 мес. → можно удваивать
+                        мощность каждый квартал.</li>
+                    <li><strong>Ценовая стратегия:</strong> $3.10 за единицу ниже аналогов ($4–$5) — выгодное предложение.
+                    </li>
+                </ol>
+            </div>
+
+        </section>
+
+        <!-- ════════════ 6. PLAN ════════════ -->
+        <section class="section" id="plan">
+            <div class="section-header">
+                <div class="section-icon plan">🗺️</div>
+                <div>
+                    <div class="section-title">План (Дорожная карта)</div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-date">Май – Август 2026</div>
+                        <h4>Первый рывок: регион Akdeniz</h4>
+                        <p>Стартуем в Анталье и Мерсине: создаём продукт, продаём, смотрим на реакцию рынка.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-date">Август – Декабрь 2026</div>
+                        <h4>Расширение производства</h4>
+                        <p>Разворачиваем студии в Стамбуле и Анкаре. Также будем рассматривать открытие предприятий в других странах.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-date">2027</div>
+                        <h4>Выходим на B2B-рынок</h4>
+                        <p>Сотрудничаем с заводами: печатаем детали для станков и элементы интерьеров.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ════════════ 7. RISKS ════════════ -->
+        <section class="section" id="risks">
+            <div class="section-header">
+                <div class="section-icon risks">⚠️</div>
+                <div>
+                    <div class="section-title">Риски</div>
+                </div>
+            </div>
+            <div class="risk-grid">
+                <div class="risk-card danger">
+                    <div class="risk-label" style="color:var(--danger);">Юридические</div>
+                    <h4>Государственные инспекции</h4>
+                    <p>Парируем: ИП с налогом 4%, лицензии не нужны (не игрушки и не еда).</p>
+                </div>
+                <div class="risk-card danger">
+                    <div class="risk-label" style="color:var(--danger);">Юридические</div>
+                    <h4>Проблемы с авторскими правами</h4>
+                    <p>Решение: используем только Open Source (CC BY) либо расширенные коммерческие лицензии.</p>
+                </div>
+                <div class="risk-card warning">
+                    <div class="risk-label" style="color:#e67e22;">Логистические</div>
+                    <h4>Ломка хрупких товаров</h4>
+                    <p>Как спасаем: многослойная пузырчатая упаковка + несколько запасных компаний по логистике.</p>
+                </div>
+                <div class="risk-card warning">
+                    <div class="risk-label" style="color:#e67e22;">Логистические</div>
+                    <h4>Таможенные проволочки с сырьём</h4>
+                    <p>Решение: PLA+ везде доступен, при необходимости докупим в розницу.</p>
+                </div>
+                <div class="risk-card">
+                    <div class="risk-label" style="color:var(--accent);">Финансовые</div>
+                    <h4>Инфляция лиры и удорожание</h4>
+                    <p>Парируем: гибкие цены и оптовый запас на полгода вперёд.</p>
+                </div>
+                <div class="risk-card">
+                    <div class="risk-label" style="color:var(--accent);">Финансовые</div>
+                    <h4>Нерегулярный спрос</h4>
+                    <p>Решение: минимальные накладные + финансовая подушка безопасности.</p>
+                </div>
+                <div class="risk-card">
+                    <div class="risk-label" style="color:var(--accent);">Технические</div>
+                    <h4>Поломка оборудования</h4>
+                    <p>Парируем: еженедельное ТО, запасные сопла и экструдеры, фонд оперативной замены. Принтер живёт 3-5 лет.</p>
+                </div>
+                <div class="risk-card">
+                    <div class="risk-label" style="color:var(--accent);">Технические</div>
+                    <h4>Скачки электричества</h4>
+                    <p>Решение: генератор на случай отключений, когда принтеров станет 10+.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ════════════ 8. BACKGROUND ════════════ -->
+        <section class="section" id="background">
+            <div class="section-header">
+                <div class="section-icon bg">📋</div>
+                <div>
+                    <div class="section-title">Бэкграунд</div>
+                </div>
+            </div>
+            <div class="card">
+                <h3>✅ Достигнутые результаты</h3>
+                <ul>
+                    <li>Провели глубокий анализ маркетплейсов и на его основе сформировали продуманную стратегию вывода продукта на рынок — с учетом как визуальной подачи, так и коммерческой эффективности.</li>
+                    <li>Запустили производство, готовы к расширению.</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3>🎯 Необходимые ресурсы</h3>
+                <p>Ключевая цель — быстро масштабировать производство в средиземноморском регионе и других городах. Нужны инвестиции: дополнительные принтеры, пластик, аренда, операторы.</p>
+                <p>Если получим финансирование: вырастем с 1 до 100+ принтеров за 3–6 месяцев, что позволит значительно удешевить стоимость принтеров, закупаемого материала и существенно увеличить объём выпускаемой продукции. Как следствие — оборот компании и прибыль.</p>
+            </div>
+        </section>
+
+        <!-- ════════════ 9. CALCULATOR SECTION ════════════ -->
+        <section class="section" id="calculator">
+            <div class="section-header">
+                <div class="section-icon bg">🧮</div>
+                <div>
+                    <div class="section-title">Калькулятор вклада</div>
+                </div>
+            </div>
+            <div class="card" style="padding: 0; overflow: hidden;">
+                <div class="widget-calculator">
+                    <h3>💼 Узнайте потенциальный доход <span class="calc-badge">6.5% месяц</span></h3>
+                    <div class="input-group">
+                        <label>Стартовый вклад ($)</label>
+                        <div class="custom-number">
+                            <button class="spin-btn" id="decPrincipal">−</button>
+                            <input type="text" id="principal" value="1000" readonly>
+                            <button class="spin-btn" id="incPrincipal">+</button>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label>Длительность (мес.)</label>
+                        <div class="custom-number">
+                            <button class="spin-btn" id="decMonths">−</button>
+                            <input type="text" id="months" value="12" readonly>
+                            <button class="spin-btn" id="incMonths">+</button>
+                        </div>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="compoundInterest">
+                        <label for="compoundInterest" style="margin:0;">Применять сложный процент (каждые 12 месяцев реинвестировать прибыль)</label>
+                    </div>
+                    <div id="results">
+                        <div class="result-item"><span>📆 Ежемесячный доход (6.5%):</span><span id="monthlyVal"></span></div>
+                        <div class="result-item"><span>💰 Общая сумма выплат за срок:</span><span id="totalMonthlyGains"></span></div>
+                        <div class="result-item"><span>🎁 Возврат вклада*:</span><span id="bonusVal"></span></div>
+                        <hr>
+                        <div class="result-item total"><span>🏆 Финальный капитал (прибыль + возврат вклада):</span><span id="finalTotal"></span></div>
+                    </div>
+                    <p style="font-size:0.75rem; margin-top: 1rem; color: var(--text-secondary);">* При необходимости возврата вклада инвестор может извлечь 100% суммы, выделенной на материал и 50% суммы, выделенной на 3D-принтер (в силу износа).</p>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <footer class="footer-note">
+        Презентация для партнёра · CULTFORM · 2026
+    </footer>
+
+    <script>
+            // ---------- FULLY EMBEDDED CALCULATOR WIDGET ----------
+            const principalInput = document.getElementById('principal');
+            const monthsInput = document.getElementById('months');
+            const compoundCheck = document.getElementById('compoundInterest');
+            const monthlySpan = document.getElementById('monthlyVal');
+            const totalGainsSpan = document.getElementById('totalMonthlyGains');
+            const bonusSpan = document.getElementById('bonusVal');
+            const finalTotalSpan = document.getElementById('finalTotal');
+
+            function updateCalculator() {
+                let P = parseFloat(principalInput.value);
+                let N = parseInt(monthsInput.value);
+                const compoundEnabled = compoundCheck.checked;
+
+                if(isNaN(P)) P = 500;
+                if(isNaN(N)) N = 1;
+                if(P < 500) P = 500;
+                principalInput.value = P;
+                if(N < 1) N = 1;
+                monthsInput.value = N;
+
+                const monthlyRate = 0.065;
+                let balance = P;
+                let totalMonthlyGains = 0;
+                const firstMonthReturn = P * monthlyRate;
+
+                // simulate month-by-month (only for total gains)
+                let runningCapital = P;
+                for(let month = 1; month <= N; month++) {
+                    const monthProfit = runningCapital * monthlyRate;
+                    totalMonthlyGains += monthProfit;
+                    if(compoundEnabled && month % 12 === 0) {
+                        runningCapital += totalMonthlyGains;
+                    }
+                }
+                // Bonus: каждые полные/дробные 500$ дают 350$ (пропорционально)
+                const bonusReturn = (P / 500) * 350;
+                const finalProfit = totalMonthlyGains + bonusReturn;
+
+                monthlySpan.innerText = `$${firstMonthReturn.toLocaleString('ru-RU', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                })}`;
+                totalGainsSpan.innerText = `$${totalMonthlyGains.toLocaleString('ru-RU', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                })}`;
+                bonusSpan.innerText = `$${bonusReturn.toLocaleString('ru-RU', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                })}`;
+                finalTotalSpan.innerText = `$${finalProfit.toLocaleString('ru-RU', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                })}`;
+            }
+
+            // buttons handlers
+            document.getElementById('decPrincipal')?.addEventListener('click', () => {
+                let val = parseInt(principalInput.value) || 500;
+                val = Math.max(500, val - 500);
+                principalInput.value = val;
+                updateCalculator();
+            });
+            document.getElementById('incPrincipal')?.addEventListener('click', () => {
+                let val = parseInt(principalInput.value) || 500;
+                val = val + 500;
+                principalInput.value = val;
+                updateCalculator();
+            });
+            document.getElementById('decMonths')?.addEventListener('click', () => {
+                let val = parseInt(monthsInput.value) || 1;
+                val = Math.max(1, val - 1);
+                monthsInput.value = val;
+                updateCalculator();
+            });
+            document.getElementById('incMonths')?.addEventListener('click', () => {
+                let val = parseInt(monthsInput.value) || 1;
+                val = val + 1;
+                monthsInput.value = val;
+                updateCalculator();
+            });
+            compoundCheck?.addEventListener('change', updateCalculator);
+            updateCalculator();
+
+
+        (function() {
+            // ── THEME TOGGLE ──────────────────────
+            const themeToggle = document.getElementById('themeToggle');
+            const body = document.body;
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') body.classList.add('dark');
+            themeToggle.addEventListener('click', () => {
+                body.classList.toggle('dark');
+                localStorage.setItem('theme', body.classList.contains('dark') ? 'dark' : 'light');
+            });
+
+            // ── ACTIVE NAV LINK ──────────────────
+            const navLinks = document.querySelectorAll('.nav-links a');
+            const sections = document.querySelectorAll('.section');
+            const observerOptions = { rootMargin: '-40px 0px -60% 0px', threshold: 0 };
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        navLinks.forEach(a => a.classList.remove('active'));
+                        const matching = document.querySelector(
+                            `.nav-links a[href="#${entry.target.id}"]`);
+                        if (matching) matching.classList.add('active');
+                    }
+                });
+            }, observerOptions);
+            sections.forEach(s => observer.observe(s));
+
+            // ── CHARTS ───────────────────────────
+            const cityCtx = document.getElementById('cityChart').getContext('2d');
+            new Chart(cityCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Стамбул', 'Анкара', 'Измир', 'Анталья', 'Бурса'],
+                    datasets: [{
+                        label: 'Количество семей (млн)',
+                        data: [5, 2, 1.5, 1, 1],
+                        backgroundColor: ['#4f6ef7', '#6b82ff', '#8899ff', '#a3b4ff',
+                            '#c0ccff'
+                        ],
+                        borderRadius: 8,
+                        borderSkipped: false,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: { callbacks: { label: ctx => ctx.raw + ' млн семей' } }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: { display: true, text: 'млн семей' },
+                            ticks: { callback: v => v + 'M' }
+                        }
+                    }
+                }
+            });
+
+            const costCtx = document.getElementById('costBreakdownChart').getContext('2d');
+            new Chart(costCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Пластик', 'Электричество', 'Упаковка', 'Амортизация', 'Комиссия MP', 'Реклама',
+                        'Доставка', 'Налог 4%', 'Возвраты (10%)', 'Прибыль'
+                    ],
+                    datasets: [{
+                        data: [1.125, 0.06, 0.25, 0.15, 1.7287, 0.70, 0.858, 0.70, 0.292,
+                            2.6243
+                        ],
+                        backgroundColor: [
+                            '#e05560', '#e87880', '#f0a0a8', '#f8c8cc',
+                            '#4f6ef7', '#6b82ff', '#8899ff', '#a3b4ff',
+                            '#c8943e', '#2ea879'
+                        ],
+                        borderWidth: 2,
+                        borderColor: 'var(--surface)',
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: { position: 'bottom', labels: { boxWidth: 12, padding: 10,
+                                font: { size: 10 } } },
+                        tooltip: { callbacks: { label: ctx => ctx.label + ': $' + ctx.raw.toFixed(
+                                3) } }
+                    }
+                }
+            });
+
+            // ── TOGGLE DETAILS ──────────────────
+            document.querySelectorAll('.toggle-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const target = document.querySelector(btn.getAttribute('data-target'));
+                    if (target) {
+                        target.classList.toggle('open');
+                        btn.textContent = target.classList.contains('open') ?
+                            btn.textContent.replace('▸', '▾').replace('Развернуть', 'Свернуть') :
+                            btn.textContent.replace('▾', '▸').replace('Свернуть', 'Развернуть');
+                    }
+                });
+            });
+
+            // ── ANIMATE ON SCROLL ───────────────
+            const animObserver = new IntersectionObserver((entries) => {
+                entries.forEach(e => {
+                    if (e.isIntersecting) {
+                        e.target.classList.add('animate-in');
+                    }
+                });
+            }, { threshold: 0.08 });
+            document.querySelectorAll('.card, .stat-card, .risk-card, .calculator-v2').forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                animObserver.observe(el);
+            });
+            setTimeout(() => {
+                document.querySelectorAll('.card, .stat-card, .risk-card, .calculator-v2').forEach(el => {
+                    const rect = el.getBoundingClientRect();
+                    if (rect.top < window.innerHeight) {
+                        el.style.opacity = '1';
+                        el.style.transform = 'translateY(0)';
+                    }
+                });
+            }, 100);
+        })();
+    </script>
+</body>
+</html>
